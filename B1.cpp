@@ -1,7 +1,7 @@
 #include <stdio.h>
 #define maxSize 100 //Kich thuoc toi da cua mang
 int main(){
-	int arr[maxSize];
+	int arr[maxSize]={0};
 	int currentLength=0;
 	printf("Moi ban nhap vao so phan tu ban muon nhap (1 -> 100): ");	scanf("%d",&currentLength);
 	//Nhap vao so phan tu mang co cho den khi gia tri nam trong khoang (1 -> 100)
