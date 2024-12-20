@@ -18,7 +18,7 @@ int main(){
 					currentSize=0; // Khoi tao lai do dai cua mang sau moi lan chon case 1
 					while(currentSize <= 0 || currentSize > maxSize){
 						if(currentSize != 0){
-							printf("Phan %d khong phai la phan tu hop le vui long nhap lai\n",currentSize);
+							printf("Do dai %d khong phai la do dai hop le vui long nhap lai\n",currentSize);
 						}
 						printf("Nhap vao so phan tu ma ban muon them vao (1 -> 100): ");	scanf("%d",&currentSize);
 					}
@@ -116,4 +116,5 @@ int main(){
 		}
 		printf("\n\n");
 	}
+	return 0;
 }
