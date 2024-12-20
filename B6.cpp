@@ -1,9 +1,8 @@
 #include <stdio.h>
-
+#define maxSize 100
 int main(){
-	int matrix[100][100]={0},n=0,m=0;
-	int choice=0,sum=0;
-	long long multiplication = 1;
+	int matrix[maxSize][maxSize]={{0}};
+	int choice=0,currentSize=0;
 	while(choice != 8){
 		printf("MENU\n");
 		printf("1. Nhap kich co va gia tri cac phan tu cua mang\n");
@@ -16,111 +15,143 @@ int main(){
 		printf("8. Thoat\n");
 		printf("Lua chon cua ban: ");	scanf("%d",&choice);
 		switch(choice){
-			case 1:
+			case 1:// Nhap kich co & gia tri cac phan tu
 				{
-					printf("Moi nhap vao kich co cua hang(1 -> 100): ");	scanf("%d",&n);
-					printf("Moi nhap vao kich co cua cot(1 -> 100): ");	scanf("%d", &m);
-					if(m < 1 || m > 100 || n < 1 || n > 100){
-						printf("Du lieu ban nhap vao khong hop le, vui long nhap lai!!!");
-					}
-					else{
-						for(int i=0;i<n;i++){
-							for(int j=0;j<m;j++){
-								printf("matrix[%d][%d]: ",i+1,j+1);
-								scanf("%d",&matrix[i][j]);
-							}
+					currentSize=0;
+					while(currentSize <= 2 || currentSize > maxSize){
+						if(currentSize <= 2 || currentSize > maxSize){
+							printf("So phan tu ban nhap vao khong hop le vui long nhap lai\n");
 						}
-						printf("Hoan thanh viec nhap du lieu");
+						printf("Moi nhap kich co cua ma tran (2 -> 100): ");	scanf("%d",&currentSize);
 					}
-				}
-				break;
-			case 2:
-				{
-					printf("Day la ma tran cua ban:\n");
-					for(int i=0;i<n;i++){
-						for(int j=0;j<m;j++){
-						printf("%d  ",matrix[i][j]);
-						}
-					printf("\n");
-					}
-				}
-				break;
-			case 3:
-				{
-					printf("Day la cac phan tu la so le: ");
-					for(int i=0;i<n;i++){
-						for(int j=0;j<m;j++){
-							if(matrix[i][j] % 2 != 0){
-								printf("%d ",matrix[i][j]);
-								sum += matrix[i][j];
-							}
+					
+					for(int i=0;i<currentSize;i++){
+						for(int j=0;j<currentSize;j++){
+							printf("Nhap gia tri Matrix[%d][%d]: ",i+1,j+1);
+							scanf("%d",&matrix[i][j]);
 						}
 					}
-					printf("\nDay la tong cua cac phan tu la so le: %d",sum);
+					printf("Cac phan tu da duoc nhap xong");
 				}
 				break;
-			case 4:
+			case 2:// In ra ma tran
 				{
-					printf("Day la cac phan tu nam tren duong bien:\n");
-					for(int i=0;i<n;i++){
-						for(int j=0;j<m;j++){
-							if(i == 0 || j == 0 || i == n - 1 || j == n - 1){
+					if(currentSize != 0){
+						printf("Day la ma tran cua ban:\n");
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
 								printf("%d  ",matrix[i][j]);
-								multiplication *= matrix[i][j];
 							}
-							else	printf("   ");
+							printf("\n");
 						}
-						printf("\n");
-					}
-					printf("Tich cua cac phan tu nam tren duong bien: %lld",multiplication);
-				}
-				break;
-			case 5:
-				{
-					printf("Day la cac phan tu nam tren duong cheo chinh:\n");
-					for(int i=0;i<n;i++){
-						for(int j=0;j<m;j++){
-							if(i == j)	printf("%d  ",matrix[i][j]);
-							else	printf("   ");
-						}
-						printf("\n");
 					}
 				}
 				break;
-			case 6:
+			case 3:// In ra cac phan tu le & tinh tong
 				{
-					printf("Day la cac phan tu nam tren duong cheo phu:\n");
-					for(int i=0;i<n;i++){
-						for(int j=0;j<m;j++){
-							if(i == 3-j-1)	printf("%d  ",matrix[i][j]);
-							else	printf("   ");
+					if(currentSize != 0){
+						int sum=0;
+						printf("Day la cac phan tu le: ");
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
+								if(matrix[i][j] % 2 != 0){
+									printf("%d ",matrix[i][j]);
+									sum+=matrix[i][j];
+								}
+							}
 						}
-						printf("\n");
+						printf("\nDay la tong cua cac so do: %d",sum);
+					}
+				}
+				break;
+			case 4:// In cac phan tu tren duong bien & tinh tich
+				{
+					if(currentSize != 0){
+						long long product=1;
+						printf("Day la cac phan tu nam tren duong bien:\n");
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
+								if(i == 0 || j == 0 || i == currentSize-1 || j == currentSize-1){
+									printf("%d ",matrix[i][j]);
+									product *= matrix[i][j];
+								}
+								else	printf("  ");
+							}
+							printf("\n");
+						}
+						printf("\nDay la tich cac phan tu nam tren duong bien: %lld",product);
+					}
+				}
+				break;
+			case 5://In ra duong cheo chinh
+				{
+					if(currentSize != 0){
+						printf("Day la cac phan tu nam tren duong cheo chinh:\n");
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
+								if(i == j){
+									printf("%d",matrix[i][j]);
+								}
+								else{
+									printf("  ");
+								}
+							}
+							printf("\n");
+						}
+					}
+				}
+				break;
+			case 6://In ra duong cheo phu
+				{
+					if(currentSize != 0){
+						printf("Day la cac phan tu nam tren duong cheo phu:\n");
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
+								if(i == 2 - j){
+									printf("%d",matrix[i][j]);
+								}
+								else{
+									printf("  ");
+								}
+							}
+							printf("\n");
+						}
 					}
 				}
 				break;
 			case 7:
 				{
-					int tongmang[n]={0};
-					int max=0,maxlineIndex=0;
-					for(int i=0;i<n;i++){
-						max = tongmang[0];
-						for(int j=0;j<m;j++){
-							tongmang[i]+=matrix[i][j];
+					if(currentSize != 0){
+						int rowsum[100]={0},max=-1,maxRowIndex=0;
+						for(int i=0;i<currentSize;i++){
+							for(int j=0;j<currentSize;j++){
+								rowsum[i]+=matrix[i][j];
+							}
+							if(max < rowsum[i]){
+								max = rowsum[i];
+								maxRowIndex = i;
+							}
 						}
-						if(max <= tongmang[i]){
-							max = tongmang[i];
-							maxlineIndex = i;
+						
+						printf("Dong co gia tri lon nhat la: ");
+						for(int j=0;j<currentSize;j++){
+							printf("%d ",matrix[maxRowIndex][j]);
 						}
+						printf("\nGia tri cua dong day la: %d",max);
 					}
-					printf("Dong co tong gia tri cac phan tu lon nhat la:\n");
-					for(int j=0;j<m;j++){
-						printf("%d ",matrix[maxlineIndex][j]);
-					}
-					printf("\nTong cua dong nay la: %d",max);
 				}
+				break;
+			case 8:
+				{
+					printf("Chuong trinh ket thuc");
+				}
+				break;
+			default:
+				printf("Lua chon cua ban khong hop le vui long nhap lai (1 -> 8)");
 		}
-		printf("\n");
-		sum=0,multiplication=1;
+		if(currentSize == 0 && choice != 8){
+						printf("Mang cua ban dang trong vui long nhap mang !!!");
+			}
+		printf("\n\n");
 	}
 }
