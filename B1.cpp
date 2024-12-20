@@ -1,44 +1,44 @@
 #include <stdio.h>
-
+#define maxSize 100 //Kich thuoc toi da cua mang
 int main(){
-	int a[100]={0};
-	int size = sizeof(a)/sizeof(int),tmp=0;
-	int currentLength;	printf("Moi ban nhap vao so phan tu muon nhap: ");	scanf("%d", &currentLength);
-	if(currentLength < 0 || currentLength > size){
-		printf("So phan tu ban nhap vao khong hop le");
-		return 0;
+	int arr[maxSize];
+	int currentLength=0;
+	printf("Moi ban nhap vao so phan tu ban muon nhap (1 -> 100): ");	scanf("%d",&currentLength);
+	//Nhap vao so phan tu mang co cho den khi gia tri nam trong khoang (1 -> 100)
+	while(currentLength <= 0||currentLength > maxSize){
+		printf("Du lieu ban nhap vao khong hop le vui long nhap lai (1 -> 100): ");	scanf("%d", &currentLength);
+	}
+	
+	//Nhap gia tri vao trong mang
+	for(int i=0;i<currentLength;i++){
+		printf("Nhap gia tri Array[%d]: ",i+1);
+		scanf("%d",&arr[i]);
+	}
+	
+	int addIndex=0,addValue=0,tmp=0; // Vi tri va gia tri phan tu them vao mang, bien tmp de luu giu gia tri addIndex xuat ra man hinh
+	
+	if(currentLength == maxSize){ //Kiem tra xem mang da day chua
+		printf("Phan tu trong mang da day khong the them vao nua !!!");
 	}
 	else{
-		for(int i=0;i<currentLength;i++){
-			printf("Moi nhap vao phan tu thu %d: ",i+1);
-			scanf("%d",a + i);
+		printf("Moi ban nhap vao vi tri ban muon them: ");	scanf("%d",&addIndex);
+		printf("Moi ban nhap vao gia tri ban muon them tai vi tri do: ");	scanf("%d",&addValue);
+		currentLength++;
+		tmp=addIndex;
+		if(addIndex < 0){
+			addIndex = 1;
 		}
-		int addIndex,value;
-		printf("Moi ban nhap vao vi tri muon them vao mang: ");	scanf("%d",&addIndex);
+		else if(addIndex > currentLength){
+			addIndex = currentLength;
+		}
+		for(int i=currentLength-2;i>=addIndex-1;i--){
+			arr[i+1]=arr[i];
+		}
+		arr[addIndex-1] = addValue;
 		
-		if(addIndex < 0 || addIndex > size){
-			printf("Vi tri ban nhap vao khong hop le");
-		}
-		else{
-		printf("Moi ban nhap vao gia tri muon them vao mang: ");	scanf("%d",&value);	
-			if(addIndex >= currentLength){
-				a[currentLength] = value;
-				currentLength++;
-			}
-			else{
-				currentLength++;
-				for(int i=addIndex-1;i<currentLength;i++){
-					tmp=a[i];
-					a[i] = value;
-					value = tmp;
-				}
-			}
-			
-			printf("Mang sau khi them gia tri moi vao vi tri %d la: ",addIndex);
-			for(int i = 0;i<currentLength;i++){
-				if(a[i] == '\0')	printf("  ");
-				else	printf("%d ",a[i]);
-			}
+		printf("Mang sau khi duoc ban them gia tri %d tai vi tri %d la:\n",addValue,tmp);
+		for(int i=0;i<currentLength;i++){
+			printf("%d ",arr[i]);
 		}
 	}
 }
