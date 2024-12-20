@@ -1,9 +1,8 @@
 #include <stdio.h>
-
+#define maxSize 100 //Kich thuoc toi da cua mang
 int main(){
-	int a[100]={0};
-	int size = sizeof(a)/sizeof(int);
-	int choice=0,currentLength,tmp=0,value=0;
+	int arr[maxSize]={0};
+	int choice=0,currentSize=0;
 	while(choice != 6){
 		printf("MENU\n");
 		printf("1. Nhap vao mang\n");
@@ -14,84 +13,107 @@ int main(){
 		printf("6. Thoat\n");
 		printf("Lua chon cua ban: ");	scanf("%d",&choice);
 		switch(choice){
-			case 1:
-				printf("Nhap vao so phan tu ma ban muon them vao: ");	scanf("%d",&currentLength);
-				if(currentLength < 0 || currentLength > size){
-					printf("So phan tu ban muon nhap vao khong hop le");
-				}
-				else{
-					for(int i=0;i<currentLength;i++){
-						printf("Moi nhap vao phan tu thu %d: ",i+1);
-						scanf("%d",a + i);
-					}
-					printf("Cac phan tu da duoc nhap xong");
-				}
-				break;
-			case 2:
-				printf("Day la mang cua ban: ");
-				for(int i=0;i<currentLength;i++){
-					if(a[i] == '\0')	printf("  ");
-					else	printf("%d ",a[i]);
-				}
-				break;
-			case 3:
+			case 1://Nhap vao mang
 				{
-					int addIndex=0,value=0;
-					printf("Moi ban lua chon vi tri ban muon them vao: ");	scanf("%d", &addIndex);
-					if(addIndex < 0 || addIndex > size){
-						printf("Vi tri ban nhap vao khong ton tai !!!");
+					currentSize=0; // Khoi tao lai do dai cua mang sau moi lan chon case 1
+					while(currentSize <= 0 || currentSize > maxSize){
+						if(currentSize != 0){
+							printf("Phan %d khong phai la phan tu hop le vui long nhap lai\n",currentSize);
+						}
+						printf("Nhap vao so phan tu ma ban muon them vao (1 -> 100): ");	scanf("%d",&currentSize);
+					}
+					printf("So phan tu %d hop le\n",currentSize);
+					
+					for(int i=0;i<currentSize;i++){
+						printf("Nhap vao gia tri Array[%d]: ",i+1);	scanf("%d",&arr[i]);
+					}
+					printf("Mang da duoc nhap xong");
+				}
+				break;
+			case 2:// Hien thi mang
+				{
+					if(currentSize == 0){
+						printf("Mang cua ban dang trong vui long nhap cac gia tri vao mang truoc khi hien thi");
 					}
 					else{
-						printf("Moi ban nhap vao gia tri ban muon them vao: ");	scanf("%d",&value);
-						if(addIndex >= currentLength){
-							a[currentLength]=value;
-							currentLength++;
-						}
-						else{
-							currentLength++;
-							for(int i=addIndex-1;i<currentLength;i++){
-								tmp = a[i];
-								a[i] = value;
-								value = tmp;
-							}
+						printf("Day la mang cua ban:\n");
+						for(int i=0;i<currentSize;i++){
+							printf("%d ",arr[i]);
 						}
 					}
 				}
 				break;
-			case 4:
+			case 3:// Them phan tu
 				{
-					int changeIndex;
-					printf("Chon vi tri ma ban muon sua: ");	scanf("%d",&changeIndex);
-					if(changeIndex < 0 || changeIndex > currentLength){
-						printf("Vi tri ban nhap khong ton tai !!!");
+					int addIndex=0,addValue=0;//Vi tri can them, gia tri duoc them vao
+					if(currentSize == 0){
+						printf("Mang cua ban dang trong vui long nhap cac phan tu vao mang truoc khi them vao");
+					}
+					else if(currentSize == 100){
+						printf("Mang cua ban da day vui long xoa bot cac phan tu truoc khi them vao");
 					}
 					else{
-						printf("Moi ban nhap vao gia tri ban muon sua: ");	scanf("%d",&value);
-						a[changeIndex-1]=value;
-					}
-				}
-				break;
-			case 5:
-				{
-					int deleteIndex;
-					printf("Chon vi tri ma ban muon xoa: ");	scanf("%d",&deleteIndex);
-					if(deleteIndex < 0 || deleteIndex > currentLength){
-						printf("Vi tri ban nhap khong ton tai !!!");
-					}
-					else{
-						currentLength--;
-						for(int i =deleteIndex-1;i<currentLength;i++){
-							a[i] = a[i + 1];
+						printf("Moi nhap vao vi tri ban muon them vao: ");	scanf("%d",&addIndex);
+						printf("Moi nhap vao gia tri ban muon them vao: ");	scanf("%d",&addValue);
+						currentSize++;
+						
+						if(addIndex < 0){
+							addIndex = 1;
 						}
+						else if(addIndex > currentSize){
+							addIndex = currentSize;
+						}
+						for(int i=currentSize-2;i>=addIndex-1;i--){
+							arr[i+1]=arr[i];
+						}
+						arr[addIndex-1]=addValue;
+						printf("Da them phan tu moi xong");
 					}
 				}
 				break;
-			case 6:
-				printf("Chuong trinh ket thuc");
+			case 4: // Sua phan tu
+				{
+					if(currentSize == 0){
+						printf("Mang cua ban dang trong vui long nhap cac phan tu vao mang truoc khi sua doi");
+					}
+					else{
+						int fixIndex=0,fixValue=0;
+						printf("Moi nhap vao vi tri phan tu can sua: ");	scanf("%d",&fixIndex);
+						printf("Moi nhap vao gia tri muon sua: ");	scanf("%d",&fixValue);
+						arr[fixIndex-1]=fixValue;
+						printf("Da sua doi xong");
+					}
+				}
+				break;
+			case 5://Xoa phan tu
+				{
+					if(currentSize == 0){
+						printf("Mang cua ban dang trong vui long nhap cac phan tu vao mang truoc khi xoa");
+					}
+					else{
+						int deleteIndex=0;
+						printf("Moi nhap vao vi tri phan tu ban muon xoa: ");	scanf("%d",&deleteIndex);
+						while(deleteIndex <= 0 || deleteIndex > currentSize){
+							printf("Vi tri %d khong ton tai vui long nhap lai: ",deleteIndex);
+							scanf("%d",&deleteIndex);
+						}
+						printf("Vi tri %d hop le\n",deleteIndex);
+						currentSize--;
+						for(int i=deleteIndex - 1;i<currentSize;i++){
+							arr[i]=arr[i+1];
+						}
+						printf("Da xoa xong");
+					}
+				}
+				break;
+			case 6://Thoat
+				{
+					printf("Chuong trinh ket thuc");
+				}
 				break;
 			default:
-				printf("Gia tri ban nhap vao khong hop le");
+				printf("Lua chon ban nhap vao khong co trong menu vui long nhap lai (1 -> 6)");
 		}
-		printf("\n");
+		printf("\n\n");
 	}
 }
